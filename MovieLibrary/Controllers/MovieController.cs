@@ -19,8 +19,8 @@ namespace MovieLibrary
 
             try
             {
-                movies = movieData.GetMoviesFromJson("https://ithstenta2020.s3.eu-north-1.amazonaws.com/topp100.json");
-                List<DetailedMovie> detailedMovies = movieData.GetDetailedMoviesFromJson("https://ithstenta2020.s3.eu-north-1.amazonaws.com/detailedMovies.json");
+                movies = await movieData.GetMoviesFromJson("https://ithstenta2020.s3.eu-north-1.amazonaws.com/topp100.json");
+                List<DetailedMovie> detailedMovies = await movieData.GetDetailedMoviesFromJson("https://ithstenta2020.s3.eu-north-1.amazonaws.com/detailedMovies.json");
                 List<Movie> convertedMovies = movieData.ConvertDetailedMovieListToMovieList(detailedMovies);
                 movies = movieData.JoinMovieListsWithoutDuplicates(movies, convertedMovies);
             }
@@ -47,7 +47,10 @@ namespace MovieLibrary
             List<Movie> movies;
             try
             {
-                movies = movieData.GetMoviesFromJson("https://ithstenta2020.s3.eu-north-1.amazonaws.com/topp100.json");
+                movies = await movieData.GetMoviesFromJson("https://ithstenta2020.s3.eu-north-1.amazonaws.com/topp100.json");
+                List<DetailedMovie> detailedMovies = await movieData.GetDetailedMoviesFromJson("https://ithstenta2020.s3.eu-north-1.amazonaws.com/detailedMovies.json");
+                List<Movie> convertedMovies = movieData.ConvertDetailedMovieListToMovieList(detailedMovies);
+                movies = movieData.JoinMovieListsWithoutDuplicates(movies, convertedMovies);
             }
             catch
             {

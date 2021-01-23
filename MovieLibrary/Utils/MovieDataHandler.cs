@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace MovieLibrary
 {
@@ -11,18 +12,20 @@ namespace MovieLibrary
     {
         static HttpClient client = new HttpClient();
 
-        public List<Movie> GetMoviesFromJson(string url)
+        public async Task<List<Movie>> GetMoviesFromJson(string url)
         {
-            var result = client.GetAsync(url).Result;
-            var movies = JsonSerializer.Deserialize<List<Movie>>(new StreamReader(result.Content.ReadAsStream()).ReadToEnd());
+            string json = await client.GetStringAsync(url);
+            List<Movie> movies = new List<Movie>();
+            JsonConvert.PopulateObject(json, movies);
             return movies;
         }
 
-        public List<DetailedMovie> GetDetailedMoviesFromJson(string url)
+        public async Task<List<DetailedMovie>> GetDetailedMoviesFromJson(string url)
         {
-            var result = client.GetAsync(url).Result;
-            var movies = JsonSerializer.Deserialize<List<DetailedMovie>>(new StreamReader(result.Content.ReadAsStream()).ReadToEnd());
-            return movies;
+            string json = await client.GetStringAsync(url);
+            List<DetailedMovie> detailedMovies = new List<DetailedMovie>();
+            JsonConvert.PopulateObject(json, detailedMovies);
+            return detailedMovies;
         }
 
         public List<Movie> SortMovies(List<Movie> movies, bool ascending = true)
